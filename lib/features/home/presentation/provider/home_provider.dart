@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:technical_test_okta/core/domain/entities/genre_movie.dart';
@@ -15,14 +13,11 @@ class HomeProvider extends ChangeNotifier {
 
   int _current = 0;
   List<PopularMovieData> _popularMovieData = [];
-  List<PopularMovieData> _popularMovieDataShuffle = [];
   GenreMovieState _stateGenreMovie = GenreMovieInitial();
   List<GenreMovieData> _genreMovieData = [];
 
   int get current => _current;
   List<PopularMovieData> get popularMovieData => _popularMovieData;
-  List<PopularMovieData> get popularMovieDataShuffle =>
-      _popularMovieDataShuffle;
   GenreMovieState get stateGenreMovie => _stateGenreMovie;
   List<GenreMovieData> get genreMovieData => _genreMovieData;
 
@@ -58,7 +53,6 @@ class HomeProvider extends ChangeNotifier {
         return ServerFailure(failure.message);
       },
       (data) {
-        shuffle(data);
         setPopularMovieData = data;
       },
     );
@@ -79,19 +73,5 @@ class HomeProvider extends ChangeNotifier {
         setStateGenreMovie = const GenreMovieLoaded();
       },
     );
-  }
-
-  List<PopularMovieData> shuffle(List<PopularMovieData> items) {
-    var random = Random();
-
-    for (var i = items.length - 1; i > 0; i--) {
-      var n = random.nextInt(i + 1);
-      var temp = items[i];
-      items[i] = items[n];
-      items[n] = temp;
-    }
-    items.length -= 15;
-    _popularMovieDataShuffle = items;
-    return items;
   }
 }

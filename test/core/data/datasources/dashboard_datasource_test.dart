@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:technical_test_okta/core/data/datasources/dashboard_datasource.dart';
-import 'package:technical_test_okta/core/data/datasources/sqlite/dashboard_db_helper.dart';
+import 'package:technical_test_okta/core/data/datasources/sqlite/local_db_helper.dart';
 import 'package:technical_test_okta/core/data/models/genre_movie_model.dart';
 import 'package:technical_test_okta/core/data/models/popular_movie_model.dart';
 import 'package:technical_test_okta/core/network/dio_client.dart';
@@ -13,7 +13,7 @@ import '../../../fixtures/fixture_reader.dart';
 void main() {
   late DashboardDataSourceImplementation dataSource;
   final dio = DioClient().dio;
-  final DashboardDBHelper helper = DashboardDBHelper();
+  final LocalDBHelper helper = LocalDBHelper();
   late DioAdapter dioAdapter;
 
   setUp(() {

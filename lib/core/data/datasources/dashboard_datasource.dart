@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:technical_test_okta/core/data/datasources/sqlite/dashboard_db_helper.dart';
+import 'package:technical_test_okta/core/data/datasources/sqlite/local_db_helper.dart';
 import 'package:technical_test_okta/core/data/models/genre_movie_model.dart';
 import 'package:technical_test_okta/core/data/models/popular_movie_model.dart';
 import 'package:technical_test_okta/core/domain/entities/popular_movie.dart';
@@ -16,7 +16,7 @@ abstract class DashboardDataSource {
 
 class DashboardDataSourceImplementation implements DashboardDataSource {
   final Dio dio;
-  final DashboardDBHelper helper;
+  final LocalDBHelper helper;
   DashboardDataSourceImplementation({required this.dio, required this.helper});
 
   @override
@@ -60,7 +60,7 @@ class DashboardDataSourceImplementation implements DashboardDataSource {
       final result = await helper.getPopularMovie();
       return result.map((e) => PopularMovieDataModel.fromDB(e)).toList();
     } catch (e) {
-      log("getAddresses", error: e);
+      log("getPopularMovie", error: e);
       rethrow;
     }
   }

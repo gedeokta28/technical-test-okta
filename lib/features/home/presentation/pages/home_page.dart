@@ -5,6 +5,7 @@ import 'package:technical_test_okta/features/home/presentation/provider/genre_mo
 import 'package:technical_test_okta/features/home/presentation/provider/home_provider.dart';
 import 'package:technical_test_okta/features/home/presentation/widget/card_movie.dart';
 import 'package:technical_test_okta/features/home/presentation/widget/shimmer_genre.dart';
+import 'package:technical_test_okta/features/search/presentation/search_page.dart';
 
 import '../../../../core/presentation/widgets/custom_app_bar.dart';
 import '../../../../core/static/colors.dart';
@@ -45,9 +46,9 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Consumer<HomeProvider>(builder: (context, provider, _) {
-                  if (provider.popularMovieDataShuffle.isNotEmpty) {
+                  if (provider.popularMovieData.isNotEmpty) {
                     return BannerSlider(
-                      movieData: provider.popularMovieDataShuffle,
+                      movieData: provider.popularMovieData.take(4).toList(),
                     );
                   }
                   return const SizedBox();
@@ -70,6 +71,10 @@ class _HomePageState extends State<HomePage> {
                       borderSide: const BorderSide(color: primaryColor),
                     ),
                   ),
+                  onSubmitted: (value) {
+                    Navigator.pushNamed(context, SearchPage.routeName,
+                        arguments: SearchPageArgumnets(textSearch: value));
+                  },
                   textInputAction: TextInputAction.search,
                   cursorColor: primaryColor,
                 ),

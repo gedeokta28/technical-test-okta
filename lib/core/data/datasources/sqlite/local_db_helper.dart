@@ -3,14 +3,13 @@ import 'dart:developer';
 import 'package:sqflite/sqflite.dart';
 import 'package:technical_test_okta/core/domain/entities/popular_movie.dart';
 
-class DashboardDBHelper {
-  static DashboardDBHelper? _databaseHelper;
-  DashboardDBHelper._instance() {
+class LocalDBHelper {
+  static LocalDBHelper? _databaseHelper;
+  LocalDBHelper._instance() {
     _databaseHelper = this;
   }
 
-  factory DashboardDBHelper() =>
-      _databaseHelper ?? DashboardDBHelper._instance();
+  factory LocalDBHelper() => _databaseHelper ?? LocalDBHelper._instance();
 
   static Database? _database;
 
@@ -77,5 +76,15 @@ class DashboardDBHelper {
       log("getPopularMovie :", error: e);
       return [];
     }
+  }
+
+  Future<List<Map<String, dynamic>>> getMovieByTitle(String textSearch) async {
+    final db = await database;
+    final List<Map<String, dynamic>> results = await db!.rawQuery(
+        "SELECT * FROM $_tbPopularMovie WHERE title LIKE '%$textSearch%' ");
+    if (results.isNotEmpty) {
+      return results;
+    }
+    return [];
   }
 }

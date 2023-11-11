@@ -3,6 +3,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:technical_test_okta/core/presentation/pages/dashboard_page.dart';
 import 'package:technical_test_okta/features/home/presentation/provider/home_provider.dart';
+import 'package:technical_test_okta/features/search/presentation/provider/search_provider.dart';
 import 'core/route/route.dart' as router;
 
 import 'core/utils/app_settings.dart';
@@ -23,6 +24,8 @@ class _MainAppState extends State<MainApp> {
         providers: [
           ChangeNotifierProvider<HomeProvider>(
               create: (_) => locator<HomeProvider>()),
+          ChangeNotifierProvider<SearchProvider>(
+              create: (_) => locator<SearchProvider>()),
         ],
         builder: (context, _) {
           return MaterialApp(
