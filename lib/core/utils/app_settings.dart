@@ -1,7 +1,7 @@
 const String appName = "Technical Test Okta";
 
 const String baseUrlAPI = "https://api.themoviedb.org/3/";
-const String baseUrlImage = "https://image.tmdb.org/t/p/w500/";
+const String baseUrlImage = "https://image.tmdb.org/t/p/original";
 
 List<String> listBanner = [
   'https://image.tmdb.org/t/p/original/7NRGAtu8E4343NSKwhkgmVRDINw.jpg',

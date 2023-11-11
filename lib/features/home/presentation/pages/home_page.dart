@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:technical_test_okta/core/utils/helper.dart';
 import 'package:technical_test_okta/features/home/presentation/pages/banner_slider.dart';
+import 'package:technical_test_okta/features/home/presentation/provider/home_provider.dart';
 import 'package:technical_test_okta/features/home/presentation/widget/card_movie.dart';
 
 import '../../../../core/presentation/widgets/custom_app_bar.dart';
 import '../../../../core/static/colors.dart';
-import '../../../../core/utils/app_settings.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home';
@@ -16,7 +17,13 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<HomeProvider>().fetchPopularMovieFromDB();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +44,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 const BannerSlider(),
                 mediumVerticalSpacing(),
                 TextField(
-                  key: const Key('enterMovieQuery'),
                   onChanged: (query) {},
                   decoration: InputDecoration(
                     hintText: 'Search movies',
@@ -111,25 +117,30 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 ),
                 mediumVerticalSpacing(),
                 const Text(
-                  'Popular',
+                  'Popular Movie',
                   style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
                 ),
                 smallVerticalSpacing(),
-                GridView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                    ),
-                    itemCount: home_items.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return CardMovie(
-                          onPress: () {},
-                          title: home_items[index].title,
-                          rating: home_items[index].ratings,
-                          logo: home_items[index].logo_path);
-                    })
+                Consumer<HomeProvider>(builder: (context, provider, _) {
+                  if (provider.popularMovieData.isNotEmpty) {
+                    return GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                        ),
+                        itemCount: provider.popularMovieData.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return CardMovie(
+                              onPress: () {},
+                              title: provider.popularMovieData[index].title,
+                              logo:
+                                  provider.popularMovieData[index].posterPath);
+                        });
+                  }
+                  return const SizedBox();
+                }),
               ],
             ),
           ),

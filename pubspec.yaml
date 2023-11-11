@@ -48,6 +48,7 @@ dependencies:
   build_runner: ^2.4.6
   http_mock_adapter: ^0.6.0
   sqflite: ^2.3.0
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
