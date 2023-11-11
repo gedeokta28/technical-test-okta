@@ -1,12 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:technical_test_okta/core/domain/entities/popular_movie.dart';
+import 'package:technical_test_okta/core/utils/helper.dart';
 
-import '../../../../core/utils/app_settings.dart';
 import '../provider/home_provider.dart';
 
 class BannerSlider extends StatefulWidget {
-  const BannerSlider({Key? key}) : super(key: key);
+  final List<PopularMovieData> movieData;
+  const BannerSlider({Key? key, required this.movieData}) : super(key: key);
 
   @override
   State<BannerSlider> createState() => _BannerSliderState();
@@ -16,12 +18,13 @@ class _BannerSliderState extends State<BannerSlider> {
   @override
   Widget build(BuildContext context) {
     final CarouselController controller = CarouselController();
-    final List<Widget> imageSliders = listBanner
+    final List<Widget> imageSliders = widget.movieData
         .map((item) => Container(
               margin: const EdgeInsets.all(2.0),
               child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                  child: Image.network(item, fit: BoxFit.cover, width: 1000.0)),
+                  child: Image.network(mergeImageUrl(item.backdropPath),
+                      fit: BoxFit.cover, width: 1000.0)),
             ))
         .toList();
 
@@ -43,7 +46,7 @@ class _BannerSliderState extends State<BannerSlider> {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: listBanner.asMap().entries.map((entry) {
+          children: widget.movieData.asMap().entries.map((entry) {
             return GestureDetector(
               onTap: () => controller.animateToPage(entry.key),
               child: Container(

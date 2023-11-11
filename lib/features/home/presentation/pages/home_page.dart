@@ -44,7 +44,14 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const BannerSlider(),
+                Consumer<HomeProvider>(builder: (context, provider, _) {
+                  if (provider.popularMovieDataShuffle.isNotEmpty) {
+                    return BannerSlider(
+                      movieData: provider.popularMovieDataShuffle,
+                    );
+                  }
+                  return const SizedBox();
+                }),
                 mediumVerticalSpacing(),
                 TextField(
                   onChanged: (query) {},
@@ -74,7 +81,6 @@ class _HomePageState extends State<HomePage> {
                 smallVerticalSpacing(),
                 Consumer<HomeProvider>(builder: (context, provider, _) {
                   final state = provider.stateGenreMovie;
-
                   if (state is GenreMovieLoading) {
                     return const ShimmerGenre();
                   } else if (state is GenreMovieFailed) {
