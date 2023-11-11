@@ -25,7 +25,7 @@ class DashboardRepositoryImplementation extends DashboardRepository {
         return const Left(ServerFailure(''));
       }
     }
-    return const Left(ServerFailure(''));
+    return const Left(ConnectionFailure(''));
   }
 
   @override
@@ -38,7 +38,7 @@ class DashboardRepositoryImplementation extends DashboardRepository {
         return const Left(ServerFailure(''));
       }
     }
-    return const Left(ServerFailure(''));
+    return const Left(ConnectionFailure(''));
   }
 
   @override
@@ -51,14 +51,14 @@ class DashboardRepositoryImplementation extends DashboardRepository {
       final result = await dataSource.savePopularMovie(data);
       return Right(result);
     } catch (e) {
-      return const Left(ServerFailure(''));
+      return const Left(ConnectionFailure(''));
     }
   }
 
   @override
   Future<Either<Failure, List<PopularMovieData>>> getPopularMovie() async {
     if (!await networkInfo.isConnected) {
-      return const Left(ServerFailure(''));
+      return const Left(ConnectionFailure(''));
     }
 
     try {

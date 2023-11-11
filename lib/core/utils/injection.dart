@@ -34,8 +34,8 @@ Future<void> locatorInit() async {
       getPopularMovie: locator(),
       savePopularMovie: locator(),
       getPopularMovieFromDB: locator()));
-  locator.registerFactory<HomeProvider>(
-      () => HomeProvider(getPopularMovieFromDB: locator()));
+  locator.registerFactory<HomeProvider>(() =>
+      HomeProvider(getPopularMovieFromDB: locator(), getGenreMovie: locator()));
 
   //data source
   locator.registerLazySingleton<DashboardDataSource>(() =>

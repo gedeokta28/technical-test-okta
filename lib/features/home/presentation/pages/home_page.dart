@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:technical_test_okta/core/utils/helper.dart';
 import 'package:technical_test_okta/features/home/presentation/pages/banner_slider.dart';
+import 'package:technical_test_okta/features/home/presentation/provider/genre_movie_state.dart';
 import 'package:technical_test_okta/features/home/presentation/provider/home_provider.dart';
 import 'package:technical_test_okta/features/home/presentation/widget/card_movie.dart';
+import 'package:technical_test_okta/features/home/presentation/widget/shimmer_genre.dart';
 
 import '../../../../core/presentation/widgets/custom_app_bar.dart';
 import '../../../../core/static/colors.dart';
@@ -22,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     context.read<HomeProvider>().fetchPopularMovieFromDB();
+    context.read<HomeProvider>().fetchGenreMovie();
   }
 
   @override
@@ -69,52 +72,63 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
                 ),
                 smallVerticalSpacing(),
-                SizedBox(
-                  height: 40,
-                  child: ListView.builder(
-                      physics: const ClampingScrollPhysics(),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 7,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          margin: const EdgeInsets.only(
-                            right: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(25)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context)
-                                    .focusColor
-                                    .withOpacity(0.1),
-                                blurRadius: 10,
-                                offset: const Offset(0, 5),
+                Consumer<HomeProvider>(builder: (context, provider, _) {
+                  final state = provider.stateGenreMovie;
+
+                  if (state is GenreMovieLoading) {
+                    return const ShimmerGenre();
+                  } else if (state is GenreMovieFailed) {
+                    return Text(getErrorMessage(state.failure));
+                  } else if (state is GenreMovieLoaded) {
+                    return SizedBox(
+                      height: 40,
+                      child: ListView.builder(
+                          physics: const ClampingScrollPhysics(),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 7,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              margin: const EdgeInsets.only(
+                                right: 8,
                               ),
-                            ],
-                          ),
-                          child: const Center(
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  left: 20.0,
-                                  right: 20.0,
-                                  bottom: 5.0,
-                                  top: 5.0),
-                              child: Text(
-                                'category',
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontSize: 13.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(25)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Theme.of(context)
+                                        .focusColor
+                                        .withOpacity(0.1),
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 5),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ),
-                        );
-                      }),
-                ),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20.0,
+                                      right: 20.0,
+                                      bottom: 5.0,
+                                      top: 5.0),
+                                  child: Text(
+                                    provider.genreMovieData[index].name,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        fontSize: 13.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                }),
                 mediumVerticalSpacing(),
                 const Text(
                   'Popular Movie',
