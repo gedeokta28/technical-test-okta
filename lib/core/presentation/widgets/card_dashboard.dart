@@ -18,7 +18,7 @@ class CardDashboard extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.all(8),
       child: InkWell(
-        onTap: () {},
+        onTap: onPress,
         splashColor: primaryColor,
         child: Center(
           child: Column(

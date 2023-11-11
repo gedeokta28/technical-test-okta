@@ -1,3 +1,5 @@
+import 'app_settings.dart';
+
 class Env {
   static final Env _instance = Env._internal();
   static late String _baseUrl;
@@ -7,7 +9,7 @@ class Env {
   }
 
   Env._internal() {
-    _baseUrl = baseUrl;
+    _baseUrl = baseUrlAPI;
   }
 
   // getter

@@ -11,8 +11,14 @@ class AppInterceptor extends Interceptor {
     //check param 'required_token'
     const requiredToken = 'required_token';
     if (options.headers.containsKey(requiredToken)) {
-      // remove required_token from headers
       options.headers.remove(requiredToken);
+
+      String token = '';
+      token =
+          'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MDc3MWU5OGFlYmI5ODZiYjBkZDU3ZDhjM2FjNDYyYyIsInN1YiI6IjY1NGQ4Nzk4NWE1ZWQwMDBlM2Y1ZGVjZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.djSmZIhn5h-Ypia9i_wQFoLfl-Xv74HhHAtof2A7xAg';
+      options.headers.addAll({
+        "Authorization": "Bearer $token",
+      });
     }
     return super.onRequest(options, handler);
   }
