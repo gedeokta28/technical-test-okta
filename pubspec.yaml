@@ -49,6 +49,7 @@ dependencies:
   http_mock_adapter: ^0.6.0
   sqflite: ^2.3.0
   shimmer: ^3.0.0
+  animate_do: ^3.0.2
 
 dev_dependencies:
   flutter_test:

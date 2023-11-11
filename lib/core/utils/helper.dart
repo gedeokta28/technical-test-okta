@@ -4,6 +4,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:technical_test_okta/core/errors/failures.dart';
 import 'package:technical_test_okta/core/static/dimens.dart';
 import 'package:technical_test_okta/core/utils/app_settings.dart';
+import 'package:technical_test_okta/features/detail/domain/entities/detail_movie.dart';
 
 logMe(Object? obj, {String tag = 'log'}) {
   /* 
@@ -47,4 +48,28 @@ dismissLoading() {
 
 String mergeImageUrl(String urlImage) {
   return baseUrlImage + urlImage;
+}
+
+String showDuration(int runtime) {
+  final int hours = runtime ~/ 60;
+  final int minutes = runtime % 60;
+
+  if (hours > 0) {
+    return '${hours}h ${minutes}m';
+  } else {
+    return '${minutes}m';
+  }
+}
+
+String showGenres(List<Genre> genres) {
+  String result = '';
+  for (var genre in genres) {
+    result += '${genre.name}, ';
+  }
+
+  if (result.isEmpty) {
+    return result;
+  }
+
+  return result.substring(0, result.length - 2);
 }

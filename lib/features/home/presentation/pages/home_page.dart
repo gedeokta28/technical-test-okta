@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:technical_test_okta/core/utils/helper.dart';
+import 'package:technical_test_okta/features/detail/presentation/pages/detail_page.dart';
 import 'package:technical_test_okta/features/home/presentation/pages/banner_slider.dart';
 import 'package:technical_test_okta/features/home/presentation/provider/genre_movie_state.dart';
 import 'package:technical_test_okta/features/home/presentation/provider/home_provider.dart';
@@ -158,7 +159,12 @@ class _HomePageState extends State<HomePage> {
                         itemCount: provider.popularMovieData.length,
                         itemBuilder: (BuildContext context, int index) {
                           return CardMovie(
-                              onPress: () {},
+                              onPress: () {
+                                Navigator.pushNamed(
+                                    context, DetailPage.routeName,
+                                    arguments:
+                                        provider.popularMovieData[index].id);
+                              },
                               title: provider.popularMovieData[index].title,
                               logo:
                                   provider.popularMovieData[index].posterPath);
