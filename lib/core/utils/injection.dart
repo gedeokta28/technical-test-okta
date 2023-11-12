@@ -17,6 +17,11 @@ import 'package:technical_test_okta/features/detail/data/repositories/detail_mov
 import 'package:technical_test_okta/features/detail/domain/repositories/detail_movie_repository.dart';
 import 'package:technical_test_okta/features/detail/domain/usecases/get_detail_movie.dart';
 import 'package:technical_test_okta/features/detail/presentation/provider/detail_movie_provider.dart';
+import 'package:technical_test_okta/features/favorite/data/datasources/favorite_datsource.dart';
+import 'package:technical_test_okta/features/favorite/data/repositories/favorite_repository_impl.dart';
+import 'package:technical_test_okta/features/favorite/domain/repositories/detail_movie_repository.dart';
+import 'package:technical_test_okta/features/favorite/domain/usecases/submit_favorite.dart';
+import 'package:technical_test_okta/features/favorite/presentation/provider/favorite_provider.dart';
 import 'package:technical_test_okta/features/search/data/datasource/search_datasource.dart';
 import 'package:technical_test_okta/features/search/data/repositories/search_repositories_impl.dart';
 import 'package:technical_test_okta/features/search/domain/repositories/search_repository.dart';
@@ -52,6 +57,9 @@ Future<void> locatorInit() async {
   locator.registerFactory<DetailMovieProvider>(() => DetailMovieProvider(
         getDetailMovie: locator(),
       ));
+  locator.registerFactory<FavoriteProvider>(() => FavoriteProvider(
+        submitFavorite: locator(),
+      ));
 
   //data source
   locator.registerLazySingleton<DashboardDataSource>(() =>
@@ -64,6 +72,10 @@ Future<void> locatorInit() async {
       () => DetailMovieDataSourceImplementation(
             dio: locator<Dio>(),
           ));
+  locator.registerLazySingleton<FavoriteDataSource>(
+      () => FavoriteDataSourceImplementation(
+            dio: locator<Dio>(),
+          ));
 
   //repository
   locator.registerLazySingleton<DashboardRepository>(() =>
@@ -74,6 +86,9 @@ Future<void> locatorInit() async {
           dataSource: locator(), networkInfo: locator()));
   locator.registerLazySingleton<DetailMovieRepository>(() =>
       DetailMovieRepositoryImplementation(
+          dataSource: locator(), networkInfo: locator()));
+  locator.registerLazySingleton<FavoriteRepository>(() =>
+      FavoriteRepositoryImplementation(
           dataSource: locator(), networkInfo: locator()));
 
   //usecase
@@ -89,4 +104,6 @@ Future<void> locatorInit() async {
       .registerLazySingleton<FindMovie>(() => FindMovie(repository: locator()));
   locator.registerLazySingleton<GetDetailMovie>(
       () => GetDetailMovie(repository: locator()));
+  locator.registerLazySingleton<SubmitFavorite>(
+      () => SubmitFavorite(repository: locator()));
 }

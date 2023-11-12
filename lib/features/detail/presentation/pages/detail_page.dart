@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:technical_test_okta/core/utils/helper.dart';
 import 'package:technical_test_okta/features/detail/presentation/provider/detail_movie_provider.dart';
 import 'package:technical_test_okta/features/detail/presentation/provider/detail_movie_state.dart';
+import 'package:technical_test_okta/features/favorite/presentation/provider/favorite_provider.dart';
+import 'package:technical_test_okta/features/favorite/presentation/provider/favorite_state.dart';
 
 class DetailPage extends StatefulWidget {
   static const routeName = '/movie-detail';
@@ -142,29 +144,56 @@ class _DetailPageState extends State<DetailPage> {
                           ],
                         ),
                         const SizedBox(height: 16.0),
-                        ElevatedButton(
-                          onPressed: () async {},
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(Icons.add, color: Colors.black),
-                              SizedBox(width: 16.0),
-                              Text(
-                                'Add to Favorite',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                ),
+                        Consumer<FavoriteProvider>(
+                            builder: (context, provider, child) {
+                          return ElevatedButton(
+                            onPressed: () async {
+                              if (provider.favoriteStatus) {
+                                provider.removeToFav(widget.id).listen((event) {
+                                  if (event is FavoriteLoaded) {
+                                    provider.setFavoriteMovie = false;
+                                  }
+                                });
+                              } else {
+                                provider.addToFav(widget.id).listen((event) {
+                                  if (event is FavoriteLoaded) {
+                                    provider.setFavoriteMovie = true;
+                                  }
+                                });
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: provider.favoriteStatus
+                                  ? Colors.grey[850]
+                                  : Colors.white,
+                              minimumSize: Size(
+                                MediaQuery.of(context).size.width,
+                                42.0,
                               ),
-                            ],
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                            minimumSize: Size(
-                              MediaQuery.of(context).size.width,
-                              42.0,
                             ),
-                          ),
-                        ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                provider.favoriteStatus
+                                    ? const Icon(Icons.check,
+                                        color: Colors.white)
+                                    : const Icon(Icons.add,
+                                        color: Colors.black),
+                                SizedBox(width: 16.0),
+                                Text(
+                                  provider.favoriteStatus
+                                      ? 'Added to favorite'
+                                      : 'Add to favorite',
+                                  style: TextStyle(
+                                    color: provider.favoriteStatus
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
                         const SizedBox(height: 16.0),
                         Text(
                           data.overview,

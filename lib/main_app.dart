@@ -3,6 +3,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:technical_test_okta/core/presentation/pages/dashboard_page.dart';
 import 'package:technical_test_okta/features/detail/presentation/provider/detail_movie_provider.dart';
+import 'package:technical_test_okta/features/favorite/presentation/provider/favorite_provider.dart';
 import 'package:technical_test_okta/features/home/presentation/provider/home_provider.dart';
 import 'package:technical_test_okta/features/search/presentation/provider/search_provider.dart';
 import 'core/route/route.dart' as router;
@@ -29,6 +30,8 @@ class _MainAppState extends State<MainApp> {
               create: (_) => locator<SearchProvider>()),
           ChangeNotifierProvider<DetailMovieProvider>(
               create: (_) => locator<DetailMovieProvider>()),
+          ChangeNotifierProvider<FavoriteProvider>(
+              create: (_) => locator<FavoriteProvider>()),
         ],
         builder: (context, _) {
           return MaterialApp(

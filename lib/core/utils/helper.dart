@@ -35,9 +35,9 @@ Widget largeVerticalSpacing() => const SizedBox(height: sizeLarge);
 Widget largeHorizontalSpacing() => const SizedBox(width: sizeLarge);
 Widget superLargeVerticalSpacing() => const SizedBox(height: 40);
 
-showLoading() {
+showLoading(String? message) {
   SmartDialog.showLoading(
-    msg: "Fetching data",
+    msg: message ?? "Fetching data",
     backDismiss: false,
   );
 }

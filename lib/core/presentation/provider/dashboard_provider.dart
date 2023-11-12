@@ -42,7 +42,7 @@ class DashboardProvider extends ChangeNotifier {
   Future<void> fetchDataPopularMovie() async {
     await fetchPopularMovieFromDB();
     if (_popularMovieData.isEmpty) {
-      showLoading();
+      showLoading(null);
       await Future.delayed(const Duration(milliseconds: 500));
       setStatePopularMovie = PopularMovieLoading();
       late Either<Failure, PopularMovie> result;
