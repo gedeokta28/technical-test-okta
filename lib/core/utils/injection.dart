@@ -20,6 +20,7 @@ import 'package:technical_test_okta/features/detail/presentation/provider/detail
 import 'package:technical_test_okta/features/favorite/data/datasources/favorite_datsource.dart';
 import 'package:technical_test_okta/features/favorite/data/repositories/favorite_repository_impl.dart';
 import 'package:technical_test_okta/features/favorite/domain/repositories/detail_movie_repository.dart';
+import 'package:technical_test_okta/features/favorite/domain/usecases/get_favorite.dart';
 import 'package:technical_test_okta/features/favorite/domain/usecases/submit_favorite.dart';
 import 'package:technical_test_okta/features/favorite/presentation/provider/favorite_provider.dart';
 import 'package:technical_test_okta/features/search/data/datasource/search_datasource.dart';
@@ -59,6 +60,7 @@ Future<void> locatorInit() async {
       ));
   locator.registerFactory<FavoriteProvider>(() => FavoriteProvider(
         submitFavorite: locator(),
+        getFavoriteMovie: locator(),
       ));
 
   //data source
@@ -106,4 +108,6 @@ Future<void> locatorInit() async {
       () => GetDetailMovie(repository: locator()));
   locator.registerLazySingleton<SubmitFavorite>(
       () => SubmitFavorite(repository: locator()));
+  locator.registerLazySingleton<GetFavoriteMovie>(
+      () => GetFavoriteMovie(repository: locator()));
 }

@@ -150,13 +150,13 @@ class _DetailPageState extends State<DetailPage> {
                             onPressed: () async {
                               if (provider.favoriteStatus) {
                                 provider.removeToFav(widget.id).listen((event) {
-                                  if (event is FavoriteLoaded) {
+                                  if (event is FavoriteChanged) {
                                     provider.setFavoriteMovie = false;
                                   }
                                 });
                               } else {
                                 provider.addToFav(widget.id).listen((event) {
-                                  if (event is FavoriteLoaded) {
+                                  if (event is FavoriteChanged) {
                                     provider.setFavoriteMovie = true;
                                   }
                                 });
@@ -179,7 +179,7 @@ class _DetailPageState extends State<DetailPage> {
                                         color: Colors.white)
                                     : const Icon(Icons.add,
                                         color: Colors.black),
-                                SizedBox(width: 16.0),
+                                const SizedBox(width: 16.0),
                                 Text(
                                   provider.favoriteStatus
                                       ? 'Added to favorite'

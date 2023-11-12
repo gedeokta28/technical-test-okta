@@ -3,6 +3,7 @@ import 'package:technical_test_okta/core/presentation/widgets/custom_app_bar.dar
 import 'package:technical_test_okta/core/static/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:technical_test_okta/core/utils/helper.dart';
+import 'package:technical_test_okta/features/detail/presentation/pages/detail_page.dart';
 import 'package:technical_test_okta/features/home/presentation/widget/card_movie.dart';
 import 'package:technical_test_okta/features/search/presentation/provider/search_provider.dart';
 
@@ -65,7 +66,12 @@ class _SearchPageState extends State<SearchPage> {
                             itemCount: provider.resultMovie.length,
                             itemBuilder: (BuildContext context, int index) {
                               return CardMovie(
-                                  onPress: () {},
+                                  onPress: () {
+                                    Navigator.pushNamed(
+                                        context, DetailPage.routeName,
+                                        arguments:
+                                            provider.resultMovie[index].id);
+                                  },
                                   title: provider.resultMovie[index].title,
                                   logo: provider.resultMovie[index].posterPath);
                             });

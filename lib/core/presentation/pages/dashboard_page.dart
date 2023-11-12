@@ -5,6 +5,7 @@ import 'package:technical_test_okta/core/presentation/widgets/card_dashboard.dar
 import 'package:technical_test_okta/core/presentation/widgets/custom_app_bar.dart';
 import 'package:technical_test_okta/core/static/colors.dart';
 import 'package:technical_test_okta/core/utils/injection.dart';
+import 'package:technical_test_okta/features/favorite/presentation/page/favorite_page.dart';
 import 'package:technical_test_okta/features/home/presentation/pages/home_page.dart';
 
 import '../../utils/app_settings.dart';
@@ -53,7 +54,9 @@ class _DashboardPageState extends State<DashboardPage> {
                     ),
                     cardTitle: 'Home'),
                 CardDashboard(
-                    onPress: () {},
+                    onPress: () {
+                      Navigator.pushNamed(context, FavoriteMoviePage.routeName);
+                    },
                     cardIcon: const Icon(
                       Icons.favorite,
                       size: 70,

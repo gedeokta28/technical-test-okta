@@ -10,14 +10,6 @@ class FavoriteEmpty extends FavoriteState {}
 
 class FavoriteLoading extends FavoriteState {}
 
-class FavoriteLoaded extends FavoriteState {
-  final bool favStatus;
-
-  FavoriteLoaded({required this.favStatus});
-  @override
-  List<Object?> get props => [favStatus];
-}
-
 class FavoriteFailure extends FavoriteState {
   final Failure failure;
 
@@ -28,10 +20,10 @@ class FavoriteFailure extends FavoriteState {
 }
 
 class FavoriteChanged extends FavoriteState {
-  final bool status;
+  final bool favStatus;
 
-  FavoriteChanged({required this.status});
+  FavoriteChanged({required this.favStatus});
 
   @override
-  List<Object> get props => [status];
+  List<Object> get props => [favStatus];
 }
